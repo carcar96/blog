@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>个人主页</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    <!-- Site CSS -->
+    <link href="/public/css/bootstrap.css" rel="stylesheet">
+    <link href="/public/css/info.css" rel="stylesheet">
+
+    <link href="https://static.bootcss.com/www/assets/css/site.min.css?v5" rel="stylesheet">
+	
+	 <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" href="https://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png">
+    <link rel="shortcut icon" href="https://static.bootcss.com/www/assets/ico/favicon.png">
+
+    
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-default navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="/">
+	          	<img src="http://static.ghostchina.com/image/b/46/4f5566c1f7bc28b3f7ac1fada8abe.png"></img>	         
+	          </a>
+	          <span>我的博客</span>
+	        </div>
+	        <div id="navbar" class="navbar-collapse collapse">
+	          <ul class="nav navbar-nav">
+	          	{%if category == ''%}
+					<li><a href="/">首页</a></li>
+				{%endif%}
+				
+				{%for cate in categories%}
+					<li><a href="/?category={{cate.id}}">{{cate.name}}</a></li>				
+				{%endfor%}
+           
+	          </ul>
+	          <ul class="nav navbar-nav navbar-right">
+	          	{%if userInfo._id == ''%}
+	            <li><a href="/">注册</a></li>
+	            <li><a href="" data-toggle="modal" data-target="#myModal">登录</a></li>
+	            {%else%}
+	            <li><a href="/Info?Id={{userInfo._id}}"><i class="iconfont">&#xe694;</i>{{userInfo.username}}</a></li>
+	            <li class="newMessages"><a href="myNews?infoId={{userInfo._id}}" target="_blank">我的消息({{userInfo.newMessages}})</a></li>
+	            <li id='logoutBtn'><a href="">退出账号</a></li>
+	            {%endif%}
+	          </ul>
+	        </div><!--/.nav-collapse -->
+	      </div>
+	    </nav>
+	</header>
+
+	<section class="info">
+		<div class="container">
+	        <div class="row">
+	        	<div class="col-md-8 col-md-offset-2">
+	        		<div class="infoMessage">
+	        			<div class="img text-center">
+							<p class="avatar">
+								<img class="changeAvatar" src="https://ss0.bdstatic.com/7Ls0a8Sm1A5BphGlnYG/sys/portrait/item/default" data-toggle="modal" data-target="#avatarModal"/>
+							</p>
+							<!-- <p>
+								<span class="change_avatar">更换头像</span>
+								<input type="file" id="file" onchange="filechange(event)"/>
+							</p> -->
+							<p class="idUsername">江湖人称：{{Info.username}}</p>
+							<span class="visitCounts">被访问数：{{Info.newVisits}}</span>
+							<span style="color:#fff">|&nbsp;&nbsp;</span>
+							<span class="Comments">评论数：{{Info.newComments}}</span>
+						</div>
+						{%if Info.isAdmin == true%}
+						<div class="info-nav isAdmin">
+							<ul id="myTab" class="nav nav-tabs">
+							    <li class="active"><a href="#comment" data-toggle="tab">
+							            评论({{commentsCount}})</a>
+							    </li>
+							    <li><a href="#reply" data-toggle="tab">
+							            回复({{replysCount}})</a>
+							    </li>
+							    <li><a href="#article" data-toggle="tab">文章({{articalsCount}})</a></li>
+							</ul>
+						</div>
+						<div id="myTabContent" class="tab-content">
+						    <div class="tab-pane fade in active" id="comment">
+						    	{%if Info.comments == ''%}
+						        <div style="padding:40px 20px;font-size:20px">Hi~ 暂无评论！</div>
+						        {%else%}
+						        <div class="comment">
+						        	<ul>
+						        		{%for comment in Info.comments%}
+						        		<li>
+						        			<div>
+
+							        			<h5><span>{{comment.postTime|date('Y-m-d H:i',-8*60)}}</span>评论了文章：<a href="/view?category=&articalId={{comment.artical._id.toString()}}">{{comment.artical.title}}</a></h5>
+
+						        			</div>
+						        			<p>{{comment.content}}</p>
+						        		</li>
+						        		{%endfor%}
+						        	</ul>
+						        </div>
+						        <div class="footerbox">				
+									<ul class="pager">
+										<li class="previous">
+										{% if commentsPage <= 1 %}
+											<span>没有上一页</span>
+										{%else%}
+											<a href="Info?Id={{Info._id.toString()}}&commentsPage={{commentsPage-1}}">上一页</a>
+										{%endif%}
+										</li>
+
+										{%if commentsPages>0%}
+										<li class="center">第 {{commentsPage}} 页 / 共 {{commentsPages}} 页</li>
+										{%else%}
+										{%endif%}
+
+										<li class="next">
+										{% if commentsPage >= commentsPages %}
+											<span>没有下一页</span>
+										{%else%}
+											<a href="Info?Id={{Info._id.toString()}}&commentsPage={{commentsPage+1}}">下一页</a>
+										{%endif%}
+										</li>
+									</ul>
+								</div>	
+						        {%endif%}				        
+						    </div>
+						    
+						    <div class="tab-pane fade" id="reply">
+						    	{%if Info.replys == ''%}
+						        <div style="padding:40px 20px;font-size:20px">Hi~ 暂无回复！</div>
+						        {%else%}
+						        <div class="comment reply">
+						        	<ul>
+						        		{%for reply in Info.replys%}
+						        		<li>
+						        			<div>
+						        				<h5>
+						        					<span>
+						        						{{reply.replyList.replyTime|date('Y-m-d H:i',-8*60)}}
+						        					</span>
+						        					在<a href="/Info?Id={{reply.commentUserId}}">{{reply.commentUserName}}</a>的评论
+						        					“<a href="/view?category=&articalId={{reply.artical.toString()}}">{{reply.content}}</a>”中<br>
+						        					{%if !reply.replyList.receiverId%}
+						        					<span class="reply_comment">回复 :</span>
+						        					{%else%}
+						        					{%endif%}
+						        					<span class="reply_comment">
+						        						{{reply.replyList.replyComment.toString()}}
+						        					</span>
+						        				</h5>	
+						        			</div>
+
+						        		</li>
+						        		{%endfor%}
+						        	</ul>
+						        </div>
+						        <div class="footerbox">				
+									<ul class="pager">
+										<li class="previous">
+										{% if replysPage <= 1 %}
+											<span>没有上一页</span>
+										{%else%}
+											<a href="Info?Id={{Info._id.toString()}}&replysPage={{replysPage-1}}">上一页</a>
+										{%endif%}
+										</li>
+
+										{%if replysPages>0%}
+										<li class="center">第 {{replysPage}} 页 / 共 {{replysPages}} 页</li>
+										{%else%}
+										{%endif%}
+
+										<li class="next">
+										{% if replysPage >= replysPages %}
+											<span>没有下一页</span>
+										{%else%}
+											<a href="Info?Id={{Info._id.toString()}}&replysPage={{replysPage+1}}">下一页</a>
+										{%endif%}
+										</li>
+									</ul>
+								</div>
+						        {%endif%}					        
+						    </div>
+
+						    <div class="tab-pane fade" id="article">
+						    	{%if Info.articals == ''%}
+						        <div style="padding:40px 20px;font-size:20px">Hi~ 暂无文章！</div>
+						        {%else%}
+						        <div class="article">
+						        	<ul>
+						        		{%for artical in Info.articals%}
+										<li>
+											<div class="text-left">
+												在<a href="/?category={{artical.category._id.toString()}}">{{artical.category.name}}</a>中发表文章<a href="/view?category={{artical.category._id.toString()}}&articalId={{artical._id.toString()}}">{{artical.title}}</a><span>({{artical.addTime|date('Y-m-d',-8*60)}})</span>
+											</div>
+											<div class="text-right">
+												<span>{{artical.views}}人阅读</span>
+												<span>{{artical.commentCounts}}人评论</span>
+											</div>
+										</li>
+										{%endfor%}
+						        	</ul>
+						        </div>
+						        <div class="footerbox">				
+									<ul class="pager">
+										<li class="previous">
+										{% if articalsPage <= 1 %}
+											<span>没有上一页</span>
+										{%else%}
+											<a href="Info?Id={{Info._id.toString()}}&articalsPage={{articalsPage-1}}">上一页</a>
+										{%endif%}
+										</li>
+
+										{%if articalsPages>0%}
+										<li class="center">第 {{articalsPage}} 页 / 共 {{articalsPages}} 页</li>
+										{%else%}
+										{%endif%}
+
+										<li class="next">
+										{% if articalsPage >= articalsPages %}
+											<span>没有下一页</span>
+										{%else%}
+											<a href="Info?Id={{Info._id.toString()}}&articalsPage={{articalsPage+1}}">下一页</a>
+										{%endif%}
+										</li>
+									</ul>
+								</div>
+						        {%endif%}					        
+						    </div>
+						</div>
+						{%else%}
+						<div class="info-nav isnotAdmin">
+							<ul id="myTab" class="nav nav-tabs">
+							    <li class="active"><a href="#comment" data-toggle="tab">
+							            评论({{commentsCount}})</a>
+							    </li>
+							    <li><a href="#reply" data-toggle="tab">回复({{replysCount}})</a></li>
+							</ul>
+						</div>
+						<div id="myTabContent" class="tab-content">
+							<div class="tab-pane fade in active" id="comment">
+						    	{%if Info.comments == ''%}
+						        <div style="padding:40px 20px;font-size:20px">Hi~ 暂无评论！</div>
+						        {%else%}
+						        <div class="comment">
+						        	<ul>
+						        		{%for comment in Info.comments%}
+						        		<li>
+						        			<div>
+							        			<h5><span>{{comment.postTime|date('Y-m-d H:i',-8*60)}}</span>评论了文章：<a href="/view?category=&articalId={{comment.artical._id.toString()}}">{{comment.artical.title}}</a></h5>
+							        			
+						        			</div>
+						        			<p>{{comment.content}}</p>
+						        		</li>
+						        		{%endfor%}
+						        	</ul>
+						        </div>
+						        <div class="footerbox">				
+									<ul class="pager">
+										<li class="previous">
+										{% if commentsPage <= 1 %}
+											<span>没有上一页</span>
+										{%else%}
+											<a href="Info?Id={{Info._id.toString()}}&commentsPage={{commentsPage-1}}">上一页</a>
+										{%endif%}
+										</li>
+
+										{%if commentsPages>0%}
+										<li class="center">第 {{commentsPage}} 页 / 共 {{commentsPages}} 页</li>
+										{%else%}
+										{%endif%}
+
+										<li class="next">
+										{% if commentsPage >= commentsPages %}
+											<span>没有下一页</span>
+										{%else%}
+											<a href="Info?Id={{Info._id.toString()}}&commentsPage={{commentsPage+1}}">下一页</a>
+										{%endif%}
+										</li>
+									</ul>
+								</div>	
+						        {%endif%}				        
+						    </div>
+						    
+						    <div class="tab-pane fade" id="reply">
+						    	{%if Info.replys  == ''%}
+						        <div style="padding:40px 20px;font-size:20px">Hi~ 暂无回复！</div>
+						        {%else%}
+						        <div class="comment reply">
+						        	<ul>
+						        		{%for reply in Info.replys%}
+						        		<li>
+						        			<div>
+						        				<h5>
+						        					<span>
+						        						{{reply.replyList.replyTime|date('Y-m-d H:i',-8*60)}}
+						        					</span>
+						        					在<a href="/Info?Id={{reply.commentUserId}}">{{reply.commentUserName}}</a>的评论
+						        					“<a href="/view?category=&articalId={{reply.artical.toString()}}">{{reply.content}}</a>”中<br>
+						        					{%if !reply.replyList.receiverId%}
+						        					<span class="reply_comment">回复 :</span>
+						        					{%else%}
+						        					{%endif%}
+						        					<span class="reply_comment">
+						        						{{reply.replyList.replyComment.toString()}}
+						        					</span>
+						        				</h5>	
+						        			</div>
+						        		</li>
+						        		{%endfor%}
+						        	</ul>
+						        </div>
+						        <div class="footerbox">				
+									<ul class="pager">
+										<li class="previous">
+										{% if replysPage <= 1 %}
+											<span>没有上一页</span>
+										{%else%}
+											<a href="Info?Id={{Info._id.toString()}}&replysPage={{replysPage-1}}">上一页</a>
+										{%endif%}
+										</li>
+
+										{%if replysPages>0%}
+										<li class="center">第 {{replysPage}} 页 / 共 {{replysPages}} 页</li>
+										{%else%}
+										{%endif%}
+
+										<li class="next">
+										{% if replysPage >= replysPages %}
+											<span>没有下一页</span>
+										{%else%}
+											<a href="Info?Id={{Info._id.toString()}}&replysPage={{replysPage+1}}">下一页</a>
+										{%endif%}
+										</li>
+									</ul>
+								</div>
+						        {%endif%}					        
+						    </div>
+						</div>
+						{%endif%}
+					</div>
+					
+	        	</div>
+	        </div>
+	    </div>
+	</section>
+
+	<!-- 模态框（Modal） 登录-->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						登录
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="widget" id="loginBox">
+						<div class="rowbox">
+							<form action="" method="post" class="form-signin input-group input-group-sm">
+								<div class="input-group input-group-sm">用户名:&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="username" /></div>
+								<div class="input-group input-group-sm">密码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="password" name="password" /></div>							
+								<div class="enterbox">
+									<a id="loginBtn" class="btn btn-lg btn-default btn-block input-group input-group-sm">登录</a>
+								</div>
+								<div class="warningbox"><span></span></div>
+								<div class="registerbox"><a href="/">还没账号？立即注册 >></a><br></div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div> 
+
+	<!-- 模态框（Modal） 换头像-->
+<!-- 	<div class="modal fade" id="avatarModal" tabindex="-2" role="dialog" aria-labelledby="avatarModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="avatarModalLabel">
+						更换头像
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="avatarBox">
+					  <div class="imageBox">
+					    <div class="thumbBox"></div>
+					    <div class="spinner" style="display: none"></div>
+					  </div>
+					  <div class="action"> 
+					    <div class="new-contentarea tc"> <a href="javascript:void(0)" class="upload-img">
+					      <label for="upload-file">请先选择图片...</label>
+					      </a>
+					      <input type="file" class="" name="upload-file" id="upload-file" />
+					    </div>
+					    <input type="button"   class="Btnsty_peyton" value="OK">
+					    <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
+					    <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
+					  </div>
+					  <div class="cropped"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="uploadAvatar" class="btn btn-default" data-dismiss="modal">确认修改
+					</button>
+					<button type="button" id="backBtn" class="btn btn-default" data-dismiss="modal">
+						取消
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>  -->
+
+	<footer class="footer" style="margin-top:500px">
+		<div class="container">
+            <div class="row footer-bottom">
+	          <ul class="list-inline text-center">
+	            <li><a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备11008151号</a></li>
+	            <li>京公网安备 xxxxxxxxxxxxxx</li>
+	          </ul>
+	        </div>
+        </div>
+	</footer>   
+
+</body>
+	
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/public/js/index.js"></script>
+	<script src="/public/js/cropbox.js"></script>
+
+	 <script>
+	     $(function () {
+	     	var index = {{index}}
+	 		switch (index){
+	 			case 0: $('#myTab li:eq(0) a').tab('show');break;
+	 			case 1: $('#myTab li:eq(1) a').tab('show');break;
+	 			case 2: $('#myTab li:eq(2) a').tab('show');break;
+	 		}
+	     });
+	 </script>
+	 
+	 <script type="text/javascript">
+	 	//换头像
+
+	 	$('.changeAvatar').mouseover(function(){
+	 		$('.change_avatar').css('opacity',0.8);
+	 	});
+	 	$('.changeAvatar').mouseout(function(){
+	 		$('.change_avatar').css('opacity',0);
+	 	});
+
+		// $('.changeAvatar').on('click',function(){
+		//  	$('#file').click();
+		// });
+
+	 	// var filechange=function(event){
+	 	// 	$('.change_avatar').css('opacity',0);
+	 	// 	var files = event.target.files, file;
+		 //    if (files && files.length > 0) {
+		 //        // 获取目前上传的文件
+		 //        file = files[0];// 文件大小校验的动作
+		 //        if(file.size > 1024 * 1024 * 2) {
+		 //            alert('图片大小不能超过 2MB!');
+		 //            return false;
+		 //        }
+		 //        // 获取 window 的 URL 工具
+		 //        var URL = window.URL || window.webkitURL;
+		 //        // 通过 file 生成目标 url
+		 //        var imgURL = URL.createObjectURL(file);
+		 //        //用attr将img的src属性改成获得的url
+		 //        $(".changeAvatar").attr("src",imgURL);
+		 //        // 使用下面这句可以在内存中释放对此 url 的伺服，跑了之后那个 URL 就无效了
+		 //        // URL.revokeObjectURL(imgURL);
+		 //    }
+	 	// }
+
+
+	 </script>
+	<script type="text/javascript">
+
+		$(window).load(function() {
+			var options = {
+				thumbBox: '.thumbBox',
+				spinner: '.spinner',
+				imgSrc: ''
+			}
+
+			var cropper = $('.imageBox').cropbox(options);
+
+			var img="";
+			var files;
+
+			$('#upload-file').on('change', function(){
+
+				var reader = new FileReader();
+				reader.onload = function(e) {
+					options.imgSrc = e.target.result;
+					cropper = $('.imageBox').cropbox(options);
+					getImg();
+				}
+				reader.readAsDataURL(this.files[0]);
+				files = this.files;
+				//getImg();
+			})
+
+			$('#uploadAvatar').on('click',function(){
+				if(files && files.length > 0){	
+					file = files[0];// 文件大小校验的动作
+			        if(file.size > 1024 * 1024 * 2) {
+			            alert('图片大小不能超过 2MB!');
+						return false;
+			        }else{
+		 				$(".changeAvatar").attr("src",img);
+			        }				
+				}else{
+					$('#backBtn').click();
+				}
+		 	})
+
+			function getImg(){
+				img = cropper.getDataURL();
+				$('.cropped').html('');
+
+				$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:128px;margin-top:50px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
+
+				$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:64px;margin-top:50px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
+			}
+
+			$(".imageBox").on("mouseup",function(){
+		 		getImg();
+		  	});
+
+			$('#btnZoomIn').on('click', function(){
+				cropper.zoomIn();
+			})
+
+			$('#btnZoomOut').on('click', function(){
+				cropper.zoomOut();
+			})
+
+		});
+	</script>
+
+</html>

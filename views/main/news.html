@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>我的消息</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    <!-- Site CSS -->
+    <link href="/public/css/bootstrap.css" rel="stylesheet"">
+    <link href="/public/css/info.css" rel="stylesheet"">
+
+    <link href="https://static.bootcss.com/www/assets/css/site.min.css?v5" rel="stylesheet">
+	
+	 <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" href="https://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png">
+    <link rel="shortcut icon" href="https://static.bootcss.com/www/assets/ico/favicon.png">
+
+    
+</head>
+<body>
+	<header>
+		<nav class="navbar navbar-default navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="/">
+	          	<img src="http://static.ghostchina.com/image/b/46/4f5566c1f7bc28b3f7ac1fada8abe.png"></img>	         
+	          </a>
+	          <span>我的博客</span>
+	        </div>
+	        <div id="navbar" class="navbar-collapse collapse">
+	          <ul class="nav navbar-nav">
+	          	{%if category == ''%}
+					<li><a href="/">首页</a></li>
+				{%endif%}
+				
+				{%for cate in categories%}
+					<li><a href="/?category={{cate.id}}">{{cate.name}}</a></li>				
+				{%endfor%}
+           
+	          </ul>
+	          <ul class="nav navbar-nav navbar-right">
+	            {%if userInfo._id == ''%}
+	            <li><a href="/">注册</a></li>
+	            <li><a href="" data-toggle="modal" data-target="#myModal">登录</a></li>
+	            {%else%}
+	            <li><a href="/Info?Id={{userInfo._id}}"><i class="iconfont">&#xe694;</i>{{userInfo.username}}</a></li>
+	            <li class="newMessages"><a href="myNews?infoId={{userInfo._id}}" target="_blank">我的消息({{Info.newMessages}})</a></li>
+	            <li id='logoutBtn'><a href="">退出账号</a></li>
+	            {%endif%}
+	          </ul>
+	        </div>
+	        <!--/.nav-collapse -->
+	      </div>
+	    </nav>
+	</header>
+
+	<section class="info news">
+		<div class="container">
+	        <div class="row">
+	        	
+	        	<div class="col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1">
+	        		{%if userInfo._id%}
+		        		{%if userInfo._id == Info._id%}
+			        	<ol class="breadcrumb">
+							<li><a href="/Info?Id={{userInfo._id}}">我的主页</a></li>
+							<li><span>我的消息</span></li>
+						</ol>
+						<div class="newsBox">
+							{%if infoNews == ''%}
+								<h4 class="text-center">暂无消息！</h4>
+							{%else%}
+								<ul>
+									{%for infoNew in infoNews%}
+										<li>
+											<h5>
+					        					<span>
+					        						{{infoNew.replyList.replyTime|date('Y-m-d H:i',-8*60)}}
+					        					</span>
+					        					<a href="/Info?Id={{infoNew.replyList.replyUserId}}">{{infoNew.replyList.replyUsername}}</a>
+					        					在
+					        					<a href="/Info?Id={{infoNew.commentUserId}}">{{infoNew.commentUserName}}</a>
+					        					的评论
+					        					“<a href="/view?category=&articalId={{infoNew.artical.toString()}}">{{infoNew.content}}</a>”中<br>
+					        					<p class="newsContent">
+					        						{{infoNew.replyList.replyComment.toString()}}
+					        					</p>
+					        					
+					        				</h5>
+										</li>
+									{%endfor%}
+								</ul>
+								<div class="footerbox">				
+									<ul class="pager">
+										<li class="previous">
+										{% if newsPage <= 1 %}
+											<span>没有上一页</span>
+										{%else%}
+											<a href="myNews?infoId={{Info._id.toString()}}&newsPage={{newsPage-1}}">上一页</a>
+										{%endif%}
+										</li>
+
+										{%if newsPages>0%}
+										<li class="center">第 {{newsPage}} 页 / 共 {{newsPages}} 页</li>
+										{%else%}
+										{%endif%}
+
+										<li class="next">
+										{% if newsPage >= newsPages %}
+											<span>没有下一页</span>
+										{%else%}
+											<a href="myNews?infoId={{Info._id.toString()}}&newsPage={{newsPage+1}}">下一页</a>
+										{%endif%}
+										</li>
+									</ul>
+								</div>
+							{%endif%}
+						</div>
+						{%else%}
+							<h4>你不能查看别人的消息！</h4>
+						{%endif%}
+					{%else%}
+						<h4>请先登录！</h4>
+					{%endif%}
+				</div>
+
+	        </div>
+	    </div>
+	</section>
+	<!-- 模态框（Modal） -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+						&times;
+					</button>
+					<h4 class="modal-title" id="myModalLabel">
+						登录
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="widget" id="loginBox">
+						<div class="rowbox">
+							<form action="" method="post" class="form-signin input-group input-group-sm">
+								<div class="input-group input-group-sm">用户名:&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="username"></input></div>
+								<div class="input-group input-group-sm">密码:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="password" name="password"></input></div>							
+								<div class="enterbox">
+									<a id="loginBtn" class="btn btn-lg btn-default btn-block input-group input-group-sm">登录</a>
+								</div>
+								<div class="warningbox"><span></span></div>
+								<div class="registerbox"><a href="/">还没账号？立即注册 >></a><br></div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal -->
+	</div>    
+
+	<footer class="footer" style="margin-top:300px">
+		<div class="container">
+            <div class="row footer-bottom">
+	          <ul class="list-inline text-center">
+	            <li><a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备11008151号</a></li><li>京公网安备 xxxxxxxxxxxxxx</li>
+	          </ul>
+	        </div>
+        </div>
+	</footer>
+
+</body>
+	
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/public/js/index.js"></script>
+
+	<script>
+		$(function(){
+			var str = $(".newsContent").html();
+			var m =str.length;
+			var n = str.indexOf(':');
+			var j = str.substring(0,n);
+			var s = str.replace(j,'回复你 ');
+		    $(".newsContent").html(s);
+		});	
+	</script>
+
+</html>

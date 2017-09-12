@@ -1,0 +1,47 @@
+﻿{% extends 'layout.html' %}
+
+{%block main%}
+
+<ol class="breadcrumb">
+	<li><a href="/ad">管理首页</a></li>
+	<li><a href="/ad/artical">文章管理</a></li>
+	<li><span>文章列表</span></li>
+</ol>
+
+<div style="padding:5px 20px;">
+	<h3>文章列表</h3>
+
+	<table class="table table-striped table-hover">
+		<tr>
+			<th>文章ID</th>
+			<th>所属的分类</th>
+			<th>文章标题</th>
+			<th>作者</th>
+			<th>发表时间</th>
+			<th>阅读量</th>
+			<th>文章操作</th>
+		</tr>
+
+		{% for artical in articals %}
+		<tr>
+			<td>{{artical._id.toString()}}</td>
+			<td>{{artical.category.name}}</td>
+			<td>{{artical.title}}</td>
+			<td>{{artical.user.username}}</td>
+			<td>{{artical.addTime|date('Y-m-d H:i:s',-8*60)}}</td>
+			<td>{{artical.views}}</td>
+			<td>
+				<a href="/ad/artical/edit?id={{artical._id.toString()}}">修改文章 |</a>
+				<a href="/ad/artical/delete?id={{artical._id.toString()}}">删除</a>
+			
+			</td>
+		</tr>
+		{% endfor %}
+		
+	</table>
+
+
+{%include 'page.html'%}
+
+<div>
+{%endblock%}

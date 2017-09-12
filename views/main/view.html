@@ -1,0 +1,75 @@
+	
+{% extends 'layout.html' %}
+
+{%block artical%}
+	
+	<article class="articlebox">
+		<div class="post-head">
+			<h2 class="post-title">{{artical.title}}</h2>
+			<div class="post-meta">
+				<span>作者：<a href="/Info?Id={{artical.user.id}}">{{artical.user.username}}</a></span> •
+				时间：<span class="meta">{{artical.addTime|date('Y-m-d H:i:s',-8*60)}}</span> •
+				阅读：<span class="meta">{{artical.views}}</span> •
+				评论：<span class="meta commentCount">{{artical.commentCounts}}</span>
+			</div>
+		</div>
+		<div class="post-content">
+
+		</div>					
+	</article>
+
+		<input type="hidden" id="ArticalId" value="{{artical.id}}"></input>
+		<input type="hidden" id="Content" value="{{artical.content}}"></input>
+		<input type="hidden" id="userInfoId" value="{{userInfo._id}}"></input>
+		<input type="hidden" id="authorId" value="{{artical.user.id}}"></input>
+
+	<div class="commentbox">		
+		{%if !userInfo._id%}
+		<div class="unlogin">还没登录，登录后可评论~~</div>
+		{%else%}
+		<div>			
+			<h3>发表评论</h3>
+			<div class="comment">
+				<textarea type="text" id="comment" class="textarea"></textarea>
+			</div>
+			<div class="comWarning"></div>
+			<div class="submitbox">
+				<button class="btn btn-default" id="comBtn" style="float:right">发表评论</button>
+			</div>
+		</div>
+		{%endif%}
+
+		
+		<div class="justify">
+			<h3 style="float:left">评论列表</h3>
+			<span style="float:right">一共有 <i class="commentCount">{{artical.commentCounts}}</i> 条评论<span>
+		</div>
+
+		<div class="nocomment list-group-item ">
+			还没有任何评论~~
+		</div>
+
+		<div class="commentlist">			
+			<ul class="list-group">				
+			</ul>
+		</div>
+
+	</div>
+
+	<div class="footerbox">				
+		<ul class="pager">
+			<li class="previous">
+				<a href="javascript:;">上一页</a>
+			</li>
+
+			<li class="center"></li>
+
+			<li class="next">
+				<a href="javascript:;">下一页</a>
+			</li>
+		</ul>
+	</div>
+
+	<script src="/public/js/comments.js"></script>
+
+{%endblock%}

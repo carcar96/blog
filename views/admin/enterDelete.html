@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{%block main%}
+
+{%if category%}
+<ol class="breadcrumb">
+	<li><a href="/ad">管理首页</a></li>
+	<li><a href="/ad/category">分类管理</a></li>
+	<li><span>删除分类</span></li>
+</ol>
+
+<div style="padding:5px 20px;">
+	<h3>删除分类 —— {{category.name}}</h3>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"><b>删除提示</b></h3>
+		</div>
+		<div class="panel-body">确认要删除该分类" {{category.name}} "吗？删除后将无法恢复！</div>
+		<div class="panel-footer">
+			<a href="/ad/category/enterdelete?id={{category._id.toString()}}" class="btn btn-danger" >确认删除</a>
+			<a href="javascript:window.history.back();" class="btn btn-primary" style="margin-left:20px;">不，返回</a>	
+		</div>
+	</div>
+					
+<div>
+{%else%}
+	<ol class="breadcrumb">
+	<li><a href="/ad">管理首页</a></li>
+	<li><a href="/ad/artical">文章管理</a></li>
+	<li><span>删除分类</span></li>
+</ol>
+
+<div style="padding:5px 20px;">
+	<h3>删除文章 —— {{artical.title}}</h3>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title"><b>删除提示</b></h3>
+		</div>
+		<div class="panel-body">确认要删除该文章" {{artical.title}} "吗？删除后将无法恢复！</div>
+		<div class="panel-footer">
+			<a href="/ad/artical/enterdelete?id={{artical._id.toString()}}" class="btn btn-danger" >确认删除</a>
+			<a href="javascript:window.history.back();" class="btn btn-primary" style="margin-left:20px;">不，返回</a>	
+		</div>
+	</div>
+					
+<div>
+{%endif%}
+
+{%endblock%}

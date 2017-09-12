@@ -1,0 +1,60 @@
+	
+{% extends 'layout.html' %}
+
+{%block artical%}
+	
+	{%for artical in articals%}
+	<article class="articlebox">
+		<div class="post-head">
+			<h2 class="post-title">{{artical.title}}</h2>
+			<div class="post-meta">
+				<span>作者：<a href="/Info?Id={{artical.user.id}}">{{artical.user.username}}</a></span> •
+				时间：<span class="meta">{{artical.addTime|date('Y-m-d H:i:s',-8*60)}}</span> •
+				阅读：<span class="meta">{{artical.views}}</span> •
+				评论：<span class="meta">{{artical.commentCounts}}</span>
+			</div>
+		</div>
+		<div class="post-content">
+			<p>{{artical.description}}</p>
+		</div>
+		<div class="post-permalink">
+			<a href="/view?category={{category}}&articalId={{artical.id}}" class="btn btn-default">阅读全文</a>
+		</div>						
+	</article>
+	{%endfor%}	
+
+	{%if pages%}
+	<div class="footerbox">				
+		<ul class="pager">
+			<li class="previous">
+			{% if page <= 1 %}
+				<span>没有上一页</span>
+			{%else%}
+				<a href="?category={{category}}&page={{page-1}}">上一页</a>
+			{%endif%}
+			</li>
+
+			{%if pages>0%}
+			<li class="center">第 {{page}} 页 / 共 {{pages}} 页</li>
+			{%else%}
+			{%endif%}
+
+			<li class="next">
+			{% if page >= pages %}
+				<span>没有下一页</span>
+			{%else%}
+				<a href="?category={{category}}&page={{page+1}}">下一页</a>
+			{%endif%}
+			</li>
+		</ul>
+	</div>
+	{%else%}
+	<div class="nocomment list-group-item " style="margin-top:40px">
+		<b>还没有任何文章，敬请期待！</b>
+	</div>
+	{%endif%}
+
+{%endblock%}
+
+
+	

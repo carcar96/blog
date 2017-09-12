@@ -1,0 +1,36 @@
+<nav>
+	<ul class="pager">		
+			<li class="previous">
+				{% if page <= 1 %}	
+					<span>没有上一页了</span>
+				{%else%}
+					{%if users%}	
+						<a href="/ad/user?page={{page-1}}">&larr; 上一页</a>
+					{%elseif categories%}
+						<a href="/ad/category?page={{page-1}}">&larr; 上一页</a>
+					{%elseif articals%}
+						<a href="/ad/artical?page={{page-1}}">&larr; 上一页</a>
+					{%endif%}
+
+				{%endif%}
+
+			<li class="center">一共有 {{count}} 条数据，每页显示 {{limit}} 条数据，一共 {{pages}} 页，当前第 {{page}} 页</li>
+
+			<li class="next">
+				{% if page >= pages %}
+					<span>没有下一页了</span>
+				{%else%}
+					{%if users%}
+						<a href="/ad/user?page={{page+1}}">下一页 &rarr;</a>
+					{%elseif categories%}
+						<a href="/ad/category?page={{page+1}}">下一页 &rarr;</a>
+					{%elseif articals%}
+						<a href="/ad/artical?page={{page+1}}">下一页 &rarr;</a>
+					{%endif%}
+				{%endif%}
+			</li>
+
+		
+			
+	</ul>
+</nav>

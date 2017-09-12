@@ -1,0 +1,43 @@
+﻿{% extends 'layout.html' %}
+
+{%block main%}
+
+<ol class="breadcrumb">
+	<li><a href="/ad">管理首页</a></li>
+	<li><span>修改文章</span></li>
+</ol>
+
+<div style="padding:5px 20px;">
+	<h3>修改文章 - {{artical.title}}</h3>
+	<form role ="form" method="post">
+		<div class="form-group">
+			<label for="title">分类：</label>
+			<select name="category" id="category" class="form-control">
+				{%for category in categories%}
+					{%if artical.category._id.toString() == category._id.toString()%}
+						<option value="{{category.id}}" selected>{{category.name}}</option>
+					{%else%}
+						<option value="{{category.id}}">{{category.name}}</option>
+					{%endif%}
+				{%endfor%}
+				}
+			</select>
+		</div>
+		<div class="form-group">
+			<label for="title">标题：</label>
+			<input type="text" value="{{artical.title}}" class="form-control" id="title" name="title" placeholder="请输入文章的标题">
+		</div>
+		<div class="form-group">
+			<label for="description">简介：</label>
+			<textarea class="form-control" id="description" name="description" placeholder="请输入文章的简介" rows="5">{{artical.description}}</textarea>
+		</div>
+		<div class="form-group">
+			<label for="content">内容：</label>
+			<textarea class="form-control" id="content" name="content" placeholder="请输入文章的内容" rows="10">{{artical.content}}</textarea>
+		</div>
+		<button type="submit" class="btn btn-primary">提交</button>
+	</form>
+	
+<div>
+<script src="/public/js/tab.js"></script> 
+{%endblock%}

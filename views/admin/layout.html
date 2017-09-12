@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>后台管理</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    <!-- Site CSS -->
+    <!-- <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"> -->
+	<link href="/public/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://static.bootcss.com/www/assets/css/site.min.css?v5" rel="stylesheet">
+	
+	 <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" href="https://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png">
+    <link rel="shortcut icon" href="https://static.bootcss.com/www/assets/ico/favicon.png">
+	
+	
+	<style>
+		p{text-indent:2em}
+		a:hover{ 
+			color:#e67e22; 
+		}
+		
+		body{
+			margin:0px; 
+			padding:0px;
+			background-color:#ebebeb;
+		}
+		.headbox{
+
+			height: 27px;
+			background: #3d474a;
+			color: #fff;
+			line-height: 26px;
+			text-align:right;
+			padding-right:50px;
+		}
+		.navbox{
+			border-bottom: 2px solid #e1e1e1;
+		}		
+		.abox{
+			color:#fff;
+		}
+		.bodybox{
+			background-color:#ffffff;
+			margin:30px;
+			padding:40px 50px;
+			border: 2px solid #e1e1e1;
+		}
+
+	</style>
+ 
+<body> 
+
+	<div class="headbox">
+		你好，管理员{{userInfo.username}}！
+		<span style="margin-left:10px;margin-right:15px;">|</span>
+		<a href="#1" class="abox">退出</a>
+	</div>
+
+	<div class="navbar navbar-default navbox">
+	  <div class="container">
+		<div class="navbar-header">
+		  <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		  </button>
+		  <a class="navbar-brand" href="javascript:;" onclick=""><b>后台管理</b></a>
+		</div>
+		<div class="navbar-collapse collapse" role="navigation">
+					
+			<ul class="nav navbar-nav">
+				<li><a href="/ad">首页</a></li>
+				<li><a href="/ad/user">用户管理</a></li>
+				<li class="dropdown">
+					<a href="" class="dropdown-toggle" data-toggle="dropdown">
+						分类管理  
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="/ad/category">分类列表</a></li>
+						<li class="divider"></li>
+						<li><a href="/ad/category/add">添加分类</a></li>
+					</ul>
+				</li>
+
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+						文章管理  
+						<b class="caret"></b>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a href="/ad/artical">文章列表</a></li>
+						<li class="divider"></li>
+						<li><a href="/ad/artical/add">添加文章</a></li>
+					</ul>
+				</li>
+			</ul>
+			
+		</div>
+	  </div>
+	</div>
+
+	<div class="bodybox">
+		{%block main%}{%endblock%}
+	</div>
+	
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <title>我的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    
+    <!-- Site CSS -->
+    <link href="/public/css/bootstrap.css" rel="stylesheet"">
+    <link href="/public/css/base.css" rel="stylesheet"">
+
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://static.bootcss.com/www/assets/css/site.min.css?v5" rel="stylesheet">
+	
+	 <!-- Favicons -->
+    <link rel="apple-touch-icon-precomposed" href="https://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png">
+    <link rel="shortcut icon" href="https://static.bootcss.com/www/assets/ico/favicon.png">
+
+    <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    
+
+</head>
+
+<body class="bgbox">
+	<!-- start header -->
+     <header class="headerbox">
+        <div class="logobox">
+
+        </div>
+    </header>
+    <!-- end header -->
+	
+	<nav class="navbar-default">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 col-md-offset-3 col-sm-10 col-sm-offset-2">
+                    <div class="navbar-header">
+                        <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						  </button>
+                    </div>
+                    <div class="navbar-collapse collapse" role="navigation">
+					  	<ul class="nav navbar-nav">
+
+					  		{%if category == ''%}
+								<li class="li-selected"><a href="/">首页</a></li>
+							{%else%}
+								<li><a href="/">首页</a></li>
+							{%endif%}
+							
+							{%for cate in categories%}
+								{%if category == cate.id%}
+									<li class="li-selected"><a href="/?category={{cate.id}}">{{cate.name}}</a></li>
+								{%else%}
+									<li><a href="/?category={{cate.id}}">{{cate.name}}</a></li>
+								{%endif%}
+								
+							{%endfor%}
+							
+						</ul>
+
+					</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+	<section class="">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8">               
+
+					{%block artical%}{%endblock%}
+
+				</main>
+
+                <aside class="col-md-4 sidebar">
+					
+					{%if userInfo._id%}
+					<div class="widget" id="userBox">
+						<h4 class="title">用户信息</h4>
+						<div class="rowbox">
+							<strong><a href="/Info?Id={{userInfo._id}}" style="color:#333">{{userInfo.username}}</a></strong><br>
+							
+							{%if userInfo.isAdmin%}
+							<span class="info">你好，管理员！</span>
+							<a href="/ad" target="_blank">进入后台管理</a>
+							{%else%}
+							<h5 class="info">你好，欢迎来到我的博客！</h5>
+							{%endif%}
+
+							<ul class="newsBox">
+								<li class="newComment"><a href="/Info?Id={{userInfo._id}}" onclick="">我的动态({{userInfo.newComments+count}})</a></li>
+								<li class="newMessages"><a href="myNews?infoId={{userInfo._id}}" target="_blank">我的消息({{userInfo.newMessages}})</a></li>
+							</ul>
+							
+							  
+							<div class="outbox"><a href="javascript:;" id="logoutBtn" class="btn btn-sm btn-default">退出登录</a></div>
+							
+						</div>
+					</div>	
+					
+					{%else%}
+					<div class="widget" id="loginBox">
+						<h4 class="title">登录</h4>
+						<div class="rowbox">
+							<form action="" method="post" class="form-signin input-group input-group-sm">
+								<div class="inputbox input-group input-group-sm">用户名：&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="username"></input></div>
+								<div class="inputbox input-group input-group-sm">密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="password" name="password"></input></div>							
+								<div class="enterbox">
+									<a id="loginBtn" class="btn btn-lg btn-default btn-block input-group input-group-sm">登录</a>
+								</div>
+								<div class="warningbox"><span></span></div>
+								<div class="inputbox2"><a id="jumpLink" href="javascript:;">还没账号？立即注册 >></a><br></div>
+							</form>
+				
+							
+						</div>
+					</div>
+					
+					<input type="hidden" id="judge" value="login"></input>
+
+					<div class="widget" id="registerBox" style="display:none">
+						<h4 class="title">注册</h4>
+						<div class="rowbox">
+							<form action="" class="form-signin input-group input-group-sm">
+								<div class="inputbox input-group input-group-sm">用户名：&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="username"></input></div>
+								<div class="inputbox input-group input-group-sm">密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="password" name="password"></input></div>
+								<div class="inputbox input-group input-group-sm">确认密码：<input class="form-control" type="password" name="repassword"></input></div>
+								<div class="enterbox">
+									<a id="registerBtn" class="btn btn-lg btn-default btn-block input-group input-group-sm">马上注册</a>
+								</div>
+								<div class="warningbox"><span></span></div>
+								<div class="inputbox2"><a id="jumpLink" href="javascript:;"><< 已有账号，立即登录</a><br></div>
+							</form>
+				
+							
+						</div>
+					</div>
+					{%endif%}
+					
+					<div class="widget">
+						<h4 class="title">
+							<i class="iconfont">&#xe617;</i>热点文章
+						</h4>
+						<div class="rowbox">
+							<ul>
+								{%for hotArtical in hotArticals%}
+								<li>
+									<a href="/view?category={{hotArtical.category.id}}&articalId={{hotArtical.id}}">{{hotArtical.title}}</a>
+									<span>({{hotArtical.views}})</span>
+								</li>
+								{%endfor%}
+							</ul>
+						</div>
+					</div>
+
+					<div class="widget">
+						<h4 class="title">
+							<i class="iconfont">&#xe61b;</i>热评文章
+						</h4>
+						<div class="rowbox">
+							<ul>
+								{%for hotCommentArtical in hotCommentArticals%}
+								<li>
+									<a href="/view?category={{hotCommentArtical.category.id}}&articalId={{hotCommentArtical.id}}">{{hotCommentArtical.title}}</a>
+									<span>({{hotCommentArtical.commentCounts}})</span>
+								</li>
+								{%endfor%}
+							</ul>
+						</div>
+					</div>
+
+					<div class="widget">
+						<h4 class="title">社区</h4>
+						<div class="rowbox">
+							<ul>
+								<li style="margin-top:10px;font-size:14px">联系QQ：1939017403</li>
+								<li style="font-size:14px">联系邮箱：1939017403@qq.com</li>
+							</ul>
+						</div>
+					</div>
+		
+                </aside>
+            </div>
+        </div>
+    </section>
+	
+	<footer class="footer">
+		<div class="container">
+            <div class="row footer-bottom">
+	          <ul class="list-inline text-center">
+	            <li><a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备11008151号</a></li><li>京公网安备 xxxxxxxxxxxxxx</li>
+	          </ul>
+	        </div>
+        </div>
+	</footer>
+
+
+
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="/public/js/index.js"></script>
+ 	
+</body>
+</html>

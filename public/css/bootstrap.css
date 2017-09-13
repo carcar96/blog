@@ -6784,12 +6784,15 @@ button.close {
 }
 /*# sourceMappingURL=bootstrap.css.map */
 
-
 .footer {
     background: #ffffff;
-    color: #da6426 !important;
-    padding: 20px 0 !important;
+    color: #333 !important;
+    padding: 15px 0 !important;
     border-top: 1px solid #e1e1e1;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    margin-top:0 !important;
 }
 
 .footer a {
@@ -6798,8 +6801,34 @@ button.close {
 
 .footer-bottom ul{
   margin-bottom: 0;
+  font-size: 12px;
 }
 
 .footer-bottom ul>li+li:before {
-    color: #e67e22 !important;
+    color: #333 !important;
+}
+
+.footerbox ul li span{
+  padding: 4px 6px;
+  font-size: 13px;
+}
+
+.footerbox ul li a{
+    padding: 4px 8px;
+    font-size: 13px;
+}
+@media (max-width: 767px){
+  section main .articlebox {
+      padding: 35px 20px;
+  }
+  section main .commentbox {
+      padding: 15px 25px;
+  }
+  section main .footerbox {
+      padding: 0px 10px;
+  }
+  .commentlist ul li .replybox {
+      margin: 0;
+      padding: 20px 10px 50px;
+  }
 }

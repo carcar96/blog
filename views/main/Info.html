@@ -16,6 +16,7 @@
     <link rel="apple-touch-icon-precomposed" href="https://static.bootcss.com/www/assets/ico/apple-touch-icon-precomposed.png">
     <link rel="shortcut icon" href="https://static.bootcss.com/www/assets/ico/favicon.png">
 
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     
 </head>
 <body>
@@ -69,25 +70,22 @@
 							<p class="avatar">
 								<img class="changeAvatar" src="https://ss0.bdstatic.com/7Ls0a8Sm1A5BphGlnYG/sys/portrait/item/default" data-toggle="modal" data-target="#avatarModal"/>
 							</p>
-							<!-- <p>
-								<span class="change_avatar">更换头像</span>
-								<input type="file" id="file" onchange="filechange(event)"/>
-							</p> -->
 							<p class="idUsername">江湖人称：{{Info.username}}</p>
-							<span class="visitCounts">被访问数：{{Info.newVisits}}</span>
+							<span class="visitCounts">被访问数：<b>{{Info.newVisits}}</b></span>
 							<span style="color:#fff">|&nbsp;&nbsp;</span>
-							<span class="Comments">评论数：{{Info.newComments}}</span>
+							<span class="Comments">评论数：<b>{{Info.newComments}}</b></span>
 						</div>
 						{%if Info.isAdmin == true%}
 						<div class="info-nav isAdmin">
 							<ul id="myTab" class="nav nav-tabs">
-							    <li class="active"><a href="#comment" data-toggle="tab">
-							            评论({{commentsCount}})</a>
+							    <li class="active">
+							    	<a href="#comment" data-toggle="tab">评论({{commentsCount}})</a>
 							    </li>
-							    <li><a href="#reply" data-toggle="tab">
-							            回复({{replysCount}})</a>
+							    <li>
+							    	<a href="#reply" data-toggle="tab">回复({{replysCount}})</a>
 							    </li>
-							    <li><a href="#article" data-toggle="tab">文章({{articalsCount}})</a></li>
+							    <li>
+							    	<a href="#article" data-toggle="tab">文章({{articalsCount}})</a></li>
 							</ul>
 						</div>
 						<div id="myTabContent" class="tab-content">
@@ -100,8 +98,9 @@
 						        		{%for comment in Info.comments%}
 						        		<li>
 						        			<div>
-
-							        			<h5><span>{{comment.postTime|date('Y-m-d H:i',-8*60)}}</span>评论了文章：<a href="/view?category=&articalId={{comment.artical._id.toString()}}">{{comment.artical.title}}</a></h5>
+							        			<h5>
+							        				<span>{{comment.postTime|date('Y-m-d H:i',-8*60)}}</span>评论了文章：<a href="/view?category=&articalId={{comment.artical._id.toString()}}">{{comment.artical.title}}</a>
+							        			</h5>
 
 						        			</div>
 						        			<p>{{comment.content}}</p>
@@ -348,8 +347,7 @@
 						    </div>
 						</div>
 						{%endif%}
-					</div>
-					
+					</div>					
 	        	</div>
 	        </div>
 	    </div>
@@ -382,53 +380,11 @@
 						</div>
 					</div>
 				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal -->
-	</div> 
-
-	<!-- 模态框（Modal） 换头像-->
-<!-- 	<div class="modal fade" id="avatarModal" tabindex="-2" role="dialog" aria-labelledby="avatarModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-						&times;
-					</button>
-					<h4 class="modal-title" id="avatarModalLabel">
-						更换头像
-					</h4>
-				</div>
-				<div class="modal-body">
-					<div class="avatarBox">
-					  <div class="imageBox">
-					    <div class="thumbBox"></div>
-					    <div class="spinner" style="display: none"></div>
-					  </div>
-					  <div class="action"> 
-					    <div class="new-contentarea tc"> <a href="javascript:void(0)" class="upload-img">
-					      <label for="upload-file">请先选择图片...</label>
-					      </a>
-					      <input type="file" class="" name="upload-file" id="upload-file" />
-					    </div>
-					    <input type="button"   class="Btnsty_peyton" value="OK">
-					    <input type="button" id="btnZoomIn" class="Btnsty_peyton" value="+"  >
-					    <input type="button" id="btnZoomOut" class="Btnsty_peyton" value="-" >
-					  </div>
-					  <div class="cropped"></div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" id="uploadAvatar" class="btn btn-default" data-dismiss="modal">确认修改
-					</button>
-					<button type="button" id="backBtn" class="btn btn-default" data-dismiss="modal">
-						取消
-					</button>
-				</div>
 			</div>
 		</div>
-	</div>  -->
+	</div> 
 
-	<footer class="footer" style="margin-top:500px">
+	<footer class="footer">
 		<div class="container">
             <div class="row footer-bottom">
 	          <ul class="list-inline text-center">
@@ -441,10 +397,8 @@
 
 </body>
 	
-	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="/public/js/index.js"></script>
-	<script src="/public/js/cropbox.js"></script>
 
 	 <script>
 	     $(function () {
@@ -456,107 +410,5 @@
 	 		}
 	     });
 	 </script>
-	 
-	 <script type="text/javascript">
-	 	//换头像
-
-	 	$('.changeAvatar').mouseover(function(){
-	 		$('.change_avatar').css('opacity',0.8);
-	 	});
-	 	$('.changeAvatar').mouseout(function(){
-	 		$('.change_avatar').css('opacity',0);
-	 	});
-
-		// $('.changeAvatar').on('click',function(){
-		//  	$('#file').click();
-		// });
-
-	 	// var filechange=function(event){
-	 	// 	$('.change_avatar').css('opacity',0);
-	 	// 	var files = event.target.files, file;
-		 //    if (files && files.length > 0) {
-		 //        // 获取目前上传的文件
-		 //        file = files[0];// 文件大小校验的动作
-		 //        if(file.size > 1024 * 1024 * 2) {
-		 //            alert('图片大小不能超过 2MB!');
-		 //            return false;
-		 //        }
-		 //        // 获取 window 的 URL 工具
-		 //        var URL = window.URL || window.webkitURL;
-		 //        // 通过 file 生成目标 url
-		 //        var imgURL = URL.createObjectURL(file);
-		 //        //用attr将img的src属性改成获得的url
-		 //        $(".changeAvatar").attr("src",imgURL);
-		 //        // 使用下面这句可以在内存中释放对此 url 的伺服，跑了之后那个 URL 就无效了
-		 //        // URL.revokeObjectURL(imgURL);
-		 //    }
-	 	// }
-
-
-	 </script>
-	<script type="text/javascript">
-
-		$(window).load(function() {
-			var options = {
-				thumbBox: '.thumbBox',
-				spinner: '.spinner',
-				imgSrc: ''
-			}
-
-			var cropper = $('.imageBox').cropbox(options);
-
-			var img="";
-			var files;
-
-			$('#upload-file').on('change', function(){
-
-				var reader = new FileReader();
-				reader.onload = function(e) {
-					options.imgSrc = e.target.result;
-					cropper = $('.imageBox').cropbox(options);
-					getImg();
-				}
-				reader.readAsDataURL(this.files[0]);
-				files = this.files;
-				//getImg();
-			})
-
-			$('#uploadAvatar').on('click',function(){
-				if(files && files.length > 0){	
-					file = files[0];// 文件大小校验的动作
-			        if(file.size > 1024 * 1024 * 2) {
-			            alert('图片大小不能超过 2MB!');
-						return false;
-			        }else{
-		 				$(".changeAvatar").attr("src",img);
-			        }				
-				}else{
-					$('#backBtn').click();
-				}
-		 	})
-
-			function getImg(){
-				img = cropper.getDataURL();
-				$('.cropped').html('');
-
-				$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:128px;margin-top:50px;border-radius:128px;box-shadow:0px 0px 12px #7E7E7E;"><p>128px*128px</p>');
-
-				$('.cropped').append('<img src="'+img+'" align="absmiddle" style="width:64px;margin-top:50px;border-radius:64px;box-shadow:0px 0px 12px #7E7E7E;" ><p>64px*64px</p>');
-			}
-
-			$(".imageBox").on("mouseup",function(){
-		 		getImg();
-		  	});
-
-			$('#btnZoomIn').on('click', function(){
-				cropper.zoomIn();
-			})
-
-			$('#btnZoomOut').on('click', function(){
-				cropper.zoomOut();
-			})
-
-		});
-	</script>
 
 </html>

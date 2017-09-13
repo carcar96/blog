@@ -1,14 +1,15 @@
-//每页条数
-var prepage = 2;
-//当前页数
-var page = 1;
-var pages = 0;
-var comments = [];
-var user = $('#userInfoId').val();
-var author = $('#authorId').val();
+
+var prepage = 2;	//每页条数
+var page = 1;	//当前页数
+var pages = 0;	//总页数
+var comments = [];	//评论列表
+
+var user = $('#userInfoId').val();	//当前用户
+var author = $('#authorId').val();	//文章作者
 var receiverId='';
 var receiverName='';
 
+//JS正则处理文章内容
 $(function(){
 	var str = $("#Content").val();
     var reg=new RegExp("＜br＞","g");
@@ -19,9 +20,9 @@ $(function(){
 //事件委托
 $('.pager').delegate('a','click',function(){
 	if($(this).parent().hasClass('previous')){
-		page--;
+		page--;	//上一页
 	}else{
-		page++;
+		page++;	//下一页
 	}
 	renderComment();
 });
@@ -66,6 +67,7 @@ $('#comBtn').on('click',function(){
 	}	
 });
 
+//回复功能
 $('.list-group').delegate('button','click',function(){
 
 	if( $(this).hasClass('noreply') ){
@@ -97,7 +99,6 @@ $('.list-group').delegate('button','click',function(){
 		}
 
 	}else{
-
 		//评论中有回复的btn
 		var id = $(this).parent().parent().parent().prev().find(':hidden').val();
 		var replyComment = $(this).parent().parent().find('textarea').val();
@@ -129,15 +130,15 @@ $('.list-group').delegate('button','click',function(){
 		}
 	}
 
-
 })
 
 
 $('.list-group').delegate('a','click',function(){
 
 	if($(this).hasClass('reply')){
-		var id = $(this).parent().find(':hidden').val();
+		//var id = $(this).parent().find(':hidden').val();
 
+		//显示隐藏单条评论列表
 		if($(this).parent().hasClass('more')){
 			$(this).parent().removeClass('more');
 			$(this).parent().next().hide();
@@ -147,7 +148,7 @@ $('.list-group').delegate('a','click',function(){
 		}
 
 	}else if($(this).hasClass('delete')){
-		//删除回复
+		//删除单条评论
 		var id = $(this).parent().find(":hidden").val();
 
 		$.ajax({
@@ -164,7 +165,7 @@ $('.list-group').delegate('a','click',function(){
 			}
 		})
 	}else if( $(this).hasClass('adminDelete') ){
-		//删除评论中的某条回复
+		//删除单条评论中的某条回复
 		var id = $(this).parent().parent().parent().parent().parent().last().find(":hidden").val();
 		var index = $(this).parent().parent().index();
 
@@ -183,11 +184,10 @@ $('.list-group').delegate('a','click',function(){
 			}
 		})
 	}else if( $(this).hasClass('adminReply') ){
-		//回复评论中的某条回复
+		//回复单条评论中的某条回复
 		
 		if( $(this).parent().parent().parent().next().next().hasClass('hideBox') ) {
 			$(this).parent().parent().parent().next().next().removeClass('hideBox')
-
 		}
 
 		receiverName = $(this).parent().prev().find('a').html();
@@ -199,9 +199,8 @@ $('.list-group').delegate('a','click',function(){
 
 		$(this).parent().parent().parent().parent().find('textarea').val(' 回复 '+ receiverName +' : ');
 
-
 	}else{
-
+		//显示隐藏回复textarea盒子
 		if( $(this).next().hasClass('hideBox') ){
 			$(this).next().removeClass('hideBox')
 		}else{
@@ -238,13 +237,14 @@ function renderComment(){
 		$('.nocomment').hide();
 		$('.commentlist').show();
 
+		//上一页
 		if( page <= 1){
 			page = 1;
 			$lis.eq(0).html( '<span>没有上一页</span>');
 		}else{
 			$lis.eq(0).html( '<a href="javascript:;">上一页</a>');
 		}
-
+		//下一页
 		if( page >= pages){
 			page = pages;
 			$lis.eq(2).html( '<span>没有下一页</span>');
@@ -255,19 +255,19 @@ function renderComment(){
 
 		var html = '';
 		for (var i=start; i<end; i++){
-
+			//评论列表为空
 			if(comments[i].replyList == ''){
-
+				//用户为文章作者
 				if(user == author){
 					html += '<li class="list-group-item">' +
 						'<div class="topbox">' +
-							'<span style="float:left;font-size:16px"><b><a style="color:#333" href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
-							'<span style="float:right;font-size:13px">' + formatDate(comments[i].postTime) + '</span>' +
+							'<span class="f-left"><b><a href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
+							'<span class="f-right">' + formatDate(comments[i].postTime) + '</span>' +
 						'</div>'+
 						'<div class="contentBox">' +comments[i].content+ '</div>' +
 						'<a class="delete" href="javascript:;">删除</a>'+
 						'<div class="bottombox">'+
-							'<a class="reply" style="text-decoration:none" href="javascript:;">回复</a>' +
+							'<a class="reply" href="javascript:;">回复</a>' +
 							'<input class="number" type="hidden" value="'+comments[i]._id.toString()+'"></input>'+
 						'</div>' +
 						'<div class="replybox" style="display:none">'+
@@ -278,23 +278,25 @@ function renderComment(){
 							'</div>'+
 							'</div>'+
 						'</li>'
+				//无用户登录
 				}else if(user == ''){
 					html += '<li class="list-group-item">' +
 						'<div class="topbox">' +
-							'<span style="float:left;font-size:16px"><b><a style="color:#333" href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
-							'<span style="float:right;font-size:13px;color:#999">' + formatDate(comments[i].postTime) + '</span>' +
+							'<span class="f-left"><b><a href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
+							'<span class="f-right" style="color:#999">' + formatDate(comments[i].postTime) + '</span>' +
 						'</div>'+
-						'<div class="contentBox">' +comments[i].content+ '</div>' +
+						'<div class="contentBox"><span>' +comments[i].content+ '</span></div>' +
 						'</li>'
+				//一般用户登录
 				}else{
 					html += '<li class="list-group-item">' +
 						'<div class="topbox">' +
-							'<span style="float:left;font-size:16px"><b><a style="color:#333" href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
-							'<span style="float:right;font-size:13px;color:#999">' + formatDate(comments[i].postTime) + '</span>' +
+							'<span class="f-left"><b><a href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
+							'<span class="f-right" style="color:#999">' + formatDate(comments[i].postTime) + '</span>' +
 						'</div>'+
 						'<div class="contentBox">' +comments[i].content+ '</div>' +
 						'<div class="bottombox">'+
-							'<a class="reply" style="text-decoration:none" href="javascript:;">回复</a>' +
+							'<a class="reply" href="javascript:;">回复</a>' +
 							'<input class="number" type="hidden" value="'+comments[i]._id.toString()+'"></input>'+
 						'</div>' +
 						'<div class="replybox" style="display:none">'+
@@ -306,8 +308,10 @@ function renderComment(){
 							'</div>'+
 						'</li>'
 				}
-			}else{	
 
+			//评论列表不为空
+			}else{	
+				//用户为文章作者
 				if(user == author){
 					var replylisthtml = '';
 					var replylisthtmls = '';
@@ -316,7 +320,7 @@ function renderComment(){
 						if(comments[i].replyList[j].replyUserId == user){
 							replylisthtml += '<li class="list-group-item replylist">' +
 												'<div class="topbox">' +
-													'<strong><a style="color:#333" href="/Info?Id='+comments[i].replyList[j].replyUserId+'">' + comments[i].replyList[j].replyUsername +'</a></strong>'+
+													'<strong><a href="/Info?Id='+comments[i].replyList[j].replyUserId+'">' + comments[i].replyList[j].replyUsername +'</a></strong>'+
 													'<span> : '+comments[i].replyList[j].replyComment+'</span>' +
 												'</div>'+
 												'<div class="contentBox text-right"><span class="time">'  + formatDate(comments[i].replyList[j].replyTime) + '</span>'+
@@ -327,7 +331,7 @@ function renderComment(){
 						}else{
 							replylisthtml += '<li class="list-group-item replylist">' +
 											'<div class="topbox">' +
-												'<strong><a style="color:#333" href="/Info?Id='+comments[i].replyList[j].replyUserId+'">' + comments[i].replyList[j].replyUsername +'</a></strong>'+
+												'<strong><a href="/Info?Id='+comments[i].replyList[j].replyUserId+'">' + comments[i].replyList[j].replyUsername +'</a></strong>'+
 												'<span> : '+comments[i].replyList[j].replyComment+'</span>' +
 											'</div>'+
 											'<div class="contentBox text-right"><span class="time">'  + formatDate(comments[i].replyList[j].replyTime) + '</span>'+
@@ -341,13 +345,13 @@ function renderComment(){
 
 					html += '<li class="list-group-item">' +
 								'<div class="topbox">' +
-									'<span style="float:left;font-size:16px"><b><a style="color:#333" href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
+									'<span class="f-left"><b><a href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
 									'<span class="Time">' + formatDate(comments[i].postTime) + '</span>' +
 								'</div>'+
 								'<div class="contentBox">' +comments[i].content+ '</div>' +
 								'<a class="delete" href="javascript:;">删除</a>'+
 								'<div class="bottombox more">'+
-									'<a class="reply" style="text-decoration:none" href="javascript:;">回复('+ comments[i].replyList.length +')</a>' +
+									'<a class="reply" href="javascript:;">回复('+ comments[i].replyList.length +')</a>' +
 									'<input class="number" type="hidden" value="'+comments[i]._id.toString()+'"></input>'+
 								'</div>' +
 								'<div class="replybox">'+replylisthtmls+
@@ -361,6 +365,7 @@ function renderComment(){
 									'</div>'+
 								'</div>'+
 							'</li>'
+				//无用户登录
 				}else if(user == ''){
 
 					var replyListHtml = '';
@@ -368,7 +373,7 @@ function renderComment(){
 					for (var j=0; j<comments[i].replyList.length; j++){
 						replyListHtml += '<li class="list-group-item replylist">' + 
 											'<div class="topbox">' +
-												'<strong><a style="color:#333" href="/Info?Id='+comments[i].replyList[j].replyUserId+'">' + comments[i].replyList[j].replyUsername +'</a></strong>'+
+												'<strong><a href="/Info?Id='+comments[i].replyList[j].replyUserId+'">' + comments[i].replyList[j].replyUsername +'</a></strong>'+
 												'<span> : '+comments[i].replyList[j].replyComment+'</span>' +
 											'</div>'+
 											'<div class="contentBox text-right"><span style="font-size:12px;color:#999;margin-right:10px">'  + formatDate(comments[i].replyList[j].replyTime) + '</span></div>' +
@@ -378,16 +383,17 @@ function renderComment(){
 
 					html += '<li class="list-group-item">' +
 						'<div class="topbox">' +
-							'<span style="float:left;font-size:16px"><b><a style="color:#333" href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
+							'<span class="f-left"><b><a href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
 							'<span class="Time">' + formatDate(comments[i].postTime) + '</span>' +
 						'</div>'+
-						'<div class="contentBox">' +comments[i].content+ '</div>' +
+						'<div class="contentBox"><span>' +comments[i].content+ '</span></div>' +
 						'<div class="bottombox more">'+
-							'<a class="reply" style="text-decoration:none" href="javascript:;">回复('+ comments[i].replyList.length +')</a>' +
+							'<a class="reply" href="javascript:;">回复('+ comments[i].replyList.length +')</a>' +
 						'</div>' +
 						'<div class="replybox">'+replyListHtmls+
 						'</div>'+
 						'</li>'
+				//一般用户登录
 				}else{
 
 					var replylisthtml = '';
@@ -397,7 +403,7 @@ function renderComment(){
 						if(comments[i].replyList[j].replyUserId == user){
 							replylisthtml += '<li class="list-group-item replylist">' +
 												'<div class="topbox">' +
-													'<strong><a style="color:#333" href="/Info?Id='+comments[i].replyList[j].replyUserId+'">' + comments[i].replyList[j].replyUsername +'</a></strong>'+
+													'<strong><a href="/Info?Id='+comments[i].replyList[j].replyUserId+'">' + comments[i].replyList[j].replyUsername +'</a></strong>'+
 													'<span> : '+comments[i].replyList[j].replyComment+'</span>' +
 												'</div>'+
 												'<div class="contentBox text-right"><span class="time">'  + formatDate(comments[i].replyList[j].replyTime) + '</span>'+
@@ -407,7 +413,7 @@ function renderComment(){
 						}else{
 							replylisthtml += '<li class="list-group-item replylist">' +
 											'<div class="topbox">' +
-												'<strong><a style="color:#333" href="/Info?Id='+comments[i].replyList[j].replyUserId+'">' + comments[i].replyList[j].replyUsername +'</a></strong>'+
+												'<strong><a href="/Info?Id='+comments[i].replyList[j].replyUserId+'">' + comments[i].replyList[j].replyUsername +'</a></strong>'+
 												'<span> : '+comments[i].replyList[j].replyComment+'</span>' +
 											'</div>'+
 											'<div class="contentBox text-right"><span class="time">'  + formatDate(comments[i].replyList[j].replyTime) + '</span>'+
@@ -421,12 +427,12 @@ function renderComment(){
 
 					html += '<li class="list-group-item">' +
 						'<div class="topbox">' +
-							'<span style="float:left;font-size:16px"><b><a style="color:#333" href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
+							'<span class="f-left"><b><a href="/Info?Id='+comments[i].commentUserId+'">' + comments[i].commentUserName +'</a></b></span>' +
 							'<span class="Time">' + formatDate(comments[i].postTime) + '</span>' +
 						'</div>'+
 						'<div class="contentBox">' +comments[i].content+ '</div>' +
 						'<div class="bottombox more">'+
-							'<a class="reply" style="text-decoration:none" href="javascript:;">回复('+ comments[i].replyList.length +')</a>' +
+							'<a class="reply" href="javascript:;">回复('+ comments[i].replyList.length +')</a>' +
 							'<input class="number" type="hidden" value="'+comments[i]._id.toString()+'"></input>'+
 						'</div>' +
 						'<div class="replybox">'+replylisthtmls+
@@ -448,53 +454,3 @@ function renderComment(){
 	}
 
 };
-
-function formatDate(d){
-	var date = new Date(d);
-
-	//年
-	 var year = date.getFullYear();
-	 	//判断小于10，前面补0
-	   if(year<10){
-	 	year="0"+year;
-	 }
-	 
-	 //月
-	 var month = date.getMonth()+1;
-	 	//判断小于10，前面补0
-	  if(month<10){
-		month="0"+month;
-	 }
-	 
-	 //日
-	 var day = date.getDate();
-	 	//判断小于10，前面补0
-	   if(day<10){
-	 	day="0"+day;
-	 }
-	 
-	 //时
-	 var hours =date.getHours();
-	 	//判断小于10，前面补0
-	    if(hours<10){
-	 	hours="0"+hours;
-	 }
-	 
-	 //分
-	 var minutes =date.getMinutes();
-	 	//判断小于10，前面补0
-	    if(minutes<10){
-	 	minutes="0"+minutes;
-	 }
-	 
-	 //秒
-	 var seconds=date.getSeconds();
-	 	//判断小于10，前面补0
-	    if(seconds<10){
-	 	seconds="0"+seconds;
-	 }
-	 
-	 //拼接年月日时分秒
-	 var date_str = year+"-"+month+"-"+day+" "+hours+":"+minutes+":"+seconds;
-	 return date_str;
-}

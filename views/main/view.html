@@ -2,7 +2,6 @@
 {% extends 'layout.html' %}
 
 {%block artical%}
-	
 	<article class="articlebox">
 		<div class="post-head">
 			<h2 class="post-title">{{artical.title}}</h2>
@@ -41,7 +40,7 @@
 
 		
 		<div class="justify">
-			<h3 style="float:left">评论列表</h3>
+			<h3>评论列表</h3>
 			<span style="float:right">一共有 <i class="commentCount">{{artical.commentCounts}}</i> 条评论<span>
 		</div>
 
@@ -70,6 +69,7 @@
 		</ul>
 	</div>
 
+	<script src="/public/js/formatDate.js"></script>
 	<script src="/public/js/comments.js"></script>
 
 {%endblock%}

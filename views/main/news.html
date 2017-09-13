@@ -100,7 +100,7 @@
 									<ul class="pager">
 										<li class="previous">
 										{% if newsPage <= 1 %}
-											<span>没有上一页</span>
+											<span>上一页</span>
 										{%else%}
 											<a href="myNews?infoId={{Info._id.toString()}}&newsPage={{newsPage-1}}">上一页</a>
 										{%endif%}
@@ -113,7 +113,7 @@
 
 										<li class="next">
 										{% if newsPage >= newsPages %}
-											<span>没有下一页</span>
+											<span>下一页</span>
 										{%else%}
 											<a href="myNews?infoId={{Info._id.toString()}}&newsPage={{newsPage+1}}">下一页</a>
 										{%endif%}
@@ -160,11 +160,11 @@
 						</div>
 					</div>
 				</div>
-			</div><!-- /.modal-content -->
-		</div><!-- /.modal -->
+			</div>
+		</div>
 	</div>    
 
-	<footer class="footer" style="margin-top:300px">
+	<footer class="footer">
 		<div class="container">
             <div class="row footer-bottom">
 	          <ul class="list-inline text-center">
@@ -183,12 +183,18 @@
 	<script>
 		$(function(){
 			var str = $(".newsContent").html();
+			if(!str) return;
 			var m =str.length;
 			var n = str.indexOf(':');
 			var j = str.substring(0,n);
 			var s = str.replace(j,'回复你 ');
 		    $(".newsContent").html(s);
 		});	
+
+		//body最小高度
+		$(function(){
+			$('body').css('min-height',($(document).height() + 'px'));
+		})
 	</script>
 
 </html>

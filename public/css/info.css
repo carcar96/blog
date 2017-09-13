@@ -24,12 +24,18 @@ html,body{
     -moz-osx-font-smoothing: grayscale;
 }
 
-.changeAvatar{
-	cursor: pointer;
+body{
+	position: relative;
 }
-
 a,button,input{
 	outline: none;
+}
+
+#loginBtn:focus,#loginBtn:active{
+	outline-color: transparent;
+	background-color: #e67e22;
+	color: #fff;
+	border-color: #e67e22;
 }
 
 header .navbar {
@@ -59,28 +65,34 @@ header .navbar .container .navbar-header span{
     box-shadow: rgb(204, 204, 204) 0px 1px 3px;
 }
 
+.navbar-default .navbar-nav > li > a:focus{
+	outline-color: transparent;
+	color: #333;
+}
+.navbar-default .navbar-nav > li > a:hover{
+    color: #e67e22;
+}
 .info .container .row col-md-8{
 	width: 75%;
 }
 
 .info{
-	margin-top: 100px;margin-bottom: 40px;
+	margin-top: 100px;
+	padding-bottom: 40px;
 }
 
 .info .container .row > div .infoMessage{
-	width: 100%;
-	height: 340px;
-	background-color: #ffffff;
-	box-shadow: 0 0 2px rgba(0,0,0,0.2);
+	background-color: #ebebeb;
     border-radius: 2px;
 }
 
 .info .container .row > div .infoMessage .img{
-	width: 100%;
-	height: 300px;
-	background: url(http://ww3.sinaimg.cn/crop.0.0.980.300/6793c6f2gw1e6s27izvbfj20r808cad4.jpg);
-	background-position: bottom center;
+    height: 300px;
+    background: url(http://ww3.sinaimg.cn/crop.0.0.980.300/6793c6f2gw1e6s27izvbfj20r808cad4.jpg);
+    background-position: bottom center;
+    background-size: cover;
     background-repeat: no-repeat;
+    box-shadow: 0 0 2px rgba(0,0,0,0.2);
 }
 
 .info .container .row > div .infoMessage .img > p img{
@@ -126,24 +138,21 @@ header .navbar .container .navbar-header span{
 .info .container .row > div .infoMessage .info-nav{
 	width: 100%;
 	height: 40px;
+	background: #ffffff;
+	box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
+.info .container .row > div .infoMessage .info-nav ul li{
+	text-align:center;
 }
 
-.info .container .row > div .infoMessage .info-nav ul{
-	width: 100%;
-	margin: 0 auto;
-}
-
-.info .container .row > div .infoMessage .isnotAdmin ul li{
-	margin: 0;
-	width: 15%;
-	text-align: center;
-	margin: 0 17.5%;
+.info .container .row > div .infoMessage .isnotAdmin ul li {
+    width: 16%;
+    margin: 0px 17%;
 }
 
 .info .container .row > div .infoMessage .isAdmin ul li{
 	margin: 0;
 	width: 15%;
-	text-align: center;
 	margin: 0 9.16666%;
 }
 
@@ -187,9 +196,6 @@ header .navbar .container .navbar-header span{
 	float: left;
 	font-size: 13px;
 	color: #333;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow:hidden;
     width: 65%;
 }
 
@@ -217,7 +223,7 @@ header .navbar .container .navbar-header span{
 }
 
 .footerbox{
-	margin:40px auto 15px;
+	margin:40px -10px 15px;
 }
 
 .footerbox .center{
@@ -249,10 +255,7 @@ header .navbar .container .navbar-header span{
 
 .info .container .row > div .tab-content .comment ul li h5{
 	margin: 0;  
-	float: left;
-	width: 100%;
 	line-height: 1.8;	
-	text-overflow: ellipsis;
     word-break:break-all;
 	word-wrap:break-word;
 }
@@ -277,16 +280,6 @@ header .navbar .container .navbar-header span{
 .info .container .row > div .tab-content .comment ul li .reply_comment{
 	color:#666;
 	font-size:14px;
-}
-
-.footerbox ul li span{
-	padding: 5px 8px;
-	font-size: 13px;
-}
-
-.footerbox ul li a{
-    padding: 5px 8px;
-    font-size: 13px;
 }
 
 .info .container .row > div .tab-content .reply ul li h5{
@@ -390,14 +383,17 @@ header .navbar .container .navbar-header span{
 	     margin-top: 0; 
 	}
 
+	.info .container .row > div .infoMessage .isnotAdmin ul li{
+		width: 30%;
+	    margin: 0 10%;
+	}
+
 }
 
 @media (max-width: 550px){
 	.info .container .row > div .infoMessage .info-nav ul li{
-		margin: 0;
-		width: 27%;
-		text-align: center;
-		margin: 0 3.166%;
+		width: 30%;
+    	margin: 0 1.666%;
 	}
 	
 	header .navbar {
@@ -425,10 +421,6 @@ header .navbar .container .navbar-header span{
     padding: 20px;
 }
 
-.news .container .row >div .newsBox{
-	width: 100%;
-}
-
 .news .container .row >div .newsBox h4{
 	margin-top: 40px;
 	margin-bottom: 20px;
@@ -441,7 +433,6 @@ header .navbar .container .navbar-header span{
 
 .news .container .row >div .newsBox ul li h5{
 	margin: 0 10px;  
-	width: 100%;
 	line-height: 1.8;	
 	text-overflow: ellipsis;
     word-break:break-all;
@@ -455,131 +446,6 @@ header .navbar .container .navbar-header span{
 }
 
 /**avatar modal*/
-.avatarBox {
-	width: 400px;
-	position: relative;
-	font-size: 12px;
-	margin-bottom: 25px;
+.changeAvatar{
+	// cursor: pointer;
 }
-.avatarBox p {
-	line-height: 12px;
-	line-height: 0px;
-	height: 0px;
-	margin: 20px;
-	color: #bbb;
-}
-.action {
-	width: 400px;
-	height: 30px;
-	margin: 20px 0;
-}
-.cropped {
-	position: absolute;
-	right: -230px;
-	top: 0;
-	width: 200px;
-	border: 1px #ddd solid;
-	height: 400px;
-	padding: 4px;
-	box-shadow: 0px 0px 12px #ddd;
-	text-align: center;
-}
-.imageBox {
-	position: relative;
-	height: 400px;
-	width: 400px;
-	border: 1px solid #aaa;
-	background: #fff;
-	overflow: hidden;
-	background-repeat: no-repeat;
-	cursor: move;
-	box-shadow: 4px 4px 12px #B0B0B0; 
-}
-.imageBox .thumbBox {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	width: 200px;
-	height: 200px;
-	margin-top: -100px;
-	border-radius:200px;
-	margin-left: -100px;
-	box-sizing: border-box;
-	border: 1px solid rgb(102, 102, 102);
-	box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.5);
-	background: none repeat scroll 0% 0% transparent;
-}
-.imageBox .spinner {
-	position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  text-align: center;
-  line-height: 400px;
-  color: #2F2A2A;
-  background: rgba(213, 211, 211, 0.7);
-}
-.Btnsty_peyton{ float: right;
-  width: 66px;
-  display: inline-block;
-  margin-bottom: 10px;
-  height: 35px;
-  line-height: 35px;
-  font-size: 20px;
-  color: #FFFFFF;
-  margin:0px 2px;
-  background-color: #f38e81;
-  border-radius: 3px;
-  text-decoration: none;
-  cursor: pointer;
-  box-shadow: 0px 0px 5px #B0B0B0;
-  border: 0px #fff solid;}
-/*选择文件上传*/
-.new-contentarea {
-	width: 165px;
-	overflow:hidden;
-	margin: 0 auto;
-	position:relative;float:left;
-}
-.new-contentarea label {
-	width:100%;
-	height:100%;
-	display:block;
-}
-.new-contentarea input[type=file] {
-	width:188px;
-	height:60px;
-	background:#333;
-	margin: 0 auto;
-	position:absolute;
-	right:50%;
-	margin-right:-94px;
-	top:0;
-	right/*\**/:0px\9;
-	margin-right/*\**/:0px\9;
-	width/*\**/:10px\9;
-	opacity:0;
-	filter:alpha(opacity=0);
-	z-index:2;
-}
-a.upload-img{
-	width:165px;
-	display: inline-block;
-	margin-bottom: 10px;
-	height: 35px;
-    line-height: 35px;
-	font-size: 16px;
-	color: #FFFFFF;
-	background-color: #f38e81;
-	border-radius: 3px;
-	text-decoration:none;
-	cursor:pointer;
-	border: 0px #fff solid;
-	box-shadow: 0px 0px 5px #B0B0B0;
-}
-a.upload-img:hover{
-	background-color: #ec7e70;
-}
-
-.tc{text-align:center;}

@@ -110,7 +110,9 @@ router.get('/view',function(req,res){
 	})
 })
 
-
+/**
+*个人主页
+**/
 router.get('/Info',function(req,res){
 	var userId = req.query.Id || '';
 	data.index = 0;

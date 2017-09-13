@@ -45,19 +45,12 @@ section .container .row main .btn.btn-default:focus,section .container .row main
 	border-color: #e67e22;
 	outline-color: transparent;	
 }
-#loginBtn:focus,#loginBtn:active{
+#loginBtn:focus,#loginBtn:active,#registerBtn:focus,#registerBtn:active,#logoutBtn:focus,#logoutBtn:active{
 	outline-color: transparent;
 	background-color: #e67e22;
 	color: #fff;
 	border-color: #e67e22;
 }
-#logoutBtn:focus,#logoutBtn:active{
-	outline-color: transparent;
-	background-color: #e67e22;
-	color: #fff;
-	border-color: #e67e22;
-}
-
 
 .bgbox{
 	margin:0px; 
@@ -134,10 +127,10 @@ section .container .row main .btn.btn-default:focus,section .container .row main
 	padding-bottom:7px;
 	margin-bottom: 8px;	
 }
-.rowbox{
-	padding-left:30px;
-	padding-right:30px;
-	margin-top:10px;
+.rowbox {
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-top: 15px;
 }
 .rowbox ul li{
 	font-size:14px;
@@ -151,7 +144,7 @@ section .container .row main .btn.btn-default:focus,section .container .row main
 }
 .inputbox2{
 	margin-top:20px;
-	float:right;
+	text-align: right;
 }
 .col-center-block {  
 	float: none;  

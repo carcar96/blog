@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <title>我的博客</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    
+       
     <!-- Site CSS -->
     <link href="/public/css/bootstrap.css" rel="stylesheet"">
     <link href="/public/css/base.css" rel="stylesheet"">
@@ -33,7 +32,7 @@
             <div class="row">
                 <div class="col-md-9 col-md-offset-3 col-sm-10 col-sm-offset-2">
                     <div class="navbar-header">
-                    	<a class="navbar-brand" href="javascript:;">我的博客</a>
+                    	<a class="theme navbar-brand" href="javascript:;">我的博客</a>
                         <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse">
 							<span class="sr-only">Toggle navigation</span>
 							<span class="icon-bar"></span>
@@ -89,8 +88,16 @@
 							{%endif%}
 
 							<ul class="newsBox">
-								<li class="newComment"><a href="/Info?Id={{userInfo._id}}" onclick="">我的动态({{userInfo.newComments+count}})</a></li>
-								<li class="newMessages"><a href="myNews?infoId={{userInfo._id}}" target="_blank">我的消息({{userInfo.newMessages}})</a></li>
+								<li class="newComment">
+									{%if userInfo.isAdmin%}
+									<a href="/Info?Id={{userInfo._id}}">我的动态记录({{userInfo.newComments+count}})</a>
+									{%else%}
+									<a href="/Info?Id={{userInfo._id}}">我的动态记录({{userInfo.newComments}})</a>
+									{%endif%}
+								</li>
+								<li class="newMessages">
+									<a href="myNews?infoId={{userInfo._id}}" target="_blank">我的消息({{userInfo.newMessages}})</a>
+								</li>
 							</ul>
 							
 							  
@@ -103,9 +110,19 @@
 					<div class="widget" id="loginBox">
 						<h4 class="title">登录</h4>
 						<div class="rowbox">
-							<form action="" method="post" class="form-signin input-group input-group-sm">
-								<div class="inputbox input-group input-group-sm">用户名：&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="username"></input></div>
-								<div class="inputbox input-group input-group-sm">密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="password" name="password"></input></div>							
+							<form action="" method="post" class="form-signin">
+<!-- 								<div class="inputbox input-group input-group-sm">用户名：&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="username"></input></div>
+								<div class="inputbox input-group input-group-sm">密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="password" name="password"></input></div>	 -->
+
+								<div class="form-group">
+								    <label for="username">用户名：</label>
+								    <input type="text" class="form-control" id="username" name="username" placeholder="Username">
+								  </div>
+								  <div class="form-group">
+								    <label for="password">密码：</label>
+								    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+								  </div>
+
 								<div class="enterbox">
 									<a id="loginBtn" class="btn btn-lg btn-default btn-block input-group input-group-sm">登录</a>
 								</div>
@@ -122,7 +139,7 @@
 					<div class="widget" id="registerBox" style="display:none">
 						<h4 class="title">注册</h4>
 						<div class="rowbox">
-							<form action="" class="form-signin input-group input-group-sm">
+							<form class="form-signin input-group input-group-sm">
 								<div class="inputbox input-group input-group-sm">用户名：&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="text" name="username"></input></div>
 								<div class="inputbox input-group input-group-sm">密码：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input class="form-control" type="password" name="password"></input></div>
 								<div class="inputbox input-group input-group-sm">确认密码：<input class="form-control" type="password" name="repassword"></input></div>
@@ -176,8 +193,7 @@
 							<ul>
 								<li style="margin-top:10px">联系QQ：1939017403</li>
 								<li>联系邮箱：1939017403@qq.com</li>
-								<li>Github地址：<a href="https://github.com/carcar96" target="_blank">https://github.com/carcar96</a></li>
-						
+								<li>Github地址：<a href="https://github.com/carcar96" target="_blank">https://github.com/carcar96</a></li>					
 							</ul>
 						</div>
 					</div>

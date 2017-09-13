@@ -212,7 +212,6 @@ router.post('/category/edit',function(req,res){
 			return
 		}else{
 			//当用户没有做任何的修改就提交的时候
-			console.log(category.name)
 			if(name == category.name){
 				res.render('admin/success',{
 					userInfo:req.userInfo,
@@ -221,7 +220,6 @@ router.post('/category/edit',function(req,res){
 				})
 				return
 			}else{
-				console.log(name)
 				//要修改的分类名称是否已经存在在数据库中
 				Category.findOne({
 					_id:{$ne:id},
@@ -335,7 +333,6 @@ router.get('/artical',function(req,res){
 				page:page
 			});
 
-			console.log(articals)
 		});
 	})	
 })

@@ -391,10 +391,6 @@ header .navbar .container .navbar-header span{
 }
 
 @media (max-width: 550px){
-	.info .container .row > div .infoMessage .info-nav ul li{
-		width: 30%;
-    	margin: 0 1.666%;
-	}
 	
 	header .navbar {
 	    min-height: 65px;

@@ -6817,6 +6817,9 @@ button.close {
     padding: 4px 8px;
     font-size: 13px;
 }
+.theme{
+    display:none;
+}
 @media (max-width: 767px){
   section main .articlebox {
       padding: 35px 20px;
@@ -6830,5 +6833,8 @@ button.close {
   .commentlist ul li .replybox {
       margin: 0;
       padding: 20px 10px 50px;
+  }
+  .theme{
+    display:block;
   }
 }

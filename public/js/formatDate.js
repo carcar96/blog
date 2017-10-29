@@ -52,7 +52,7 @@ function formatDate(d){
 	var s = (new Date().getTime()-date.getTime())/1000;
 	var str = '';
 	if(s<60){
-		str = s + '秒前';
+		str = Math.ceil(s) + '秒前';
 	}else if(s<60*60){
 		s = Math.floor(s/60);
 		str = s + '分钟前';

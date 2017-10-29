@@ -35,7 +35,7 @@ router.get('/',function(req,res,next){
 	data.category = req.query.category || '';
 	data.count = 0;
 	data.page = Number(req.query.page || 1);
-	data.limit = 2;
+	data.limit = 5;
 	data.pages = 0;
 
 	var where = {};
@@ -119,17 +119,17 @@ router.get('/Info',function(req,res){
 
 	data.articalsCount = 0;
 	data.articalsPage = Number(req.query.articalsPage || 1);
-	data.articalsLimit = 2;
+	data.articalsLimit = 5;
 	data.articalsPages = 0;
 
 	data.commentsCount = 0;
 	data.commentsPage = Number(req.query.commentsPage || 1);
-	data.commentsLimit = 2;
+	data.commentsLimit = 5;
 	data.commentsPages = 0;
 
 	data.replysCount = 0;
 	data.replysPage = Number(req.query.replysPage || 1);
-	data.replysLimit = 2;
+	data.replysLimit = 5;
 	data.replysPages = 0;
 
 
@@ -234,7 +234,7 @@ router.get('/myNews',function(req,res){
 
 	data.newsCount = 0;
 	data.newsPage = Number(req.query.newsPage || 1);
-	data.newsLimit = 2;
+	data.newsLimit = 5;
 	data.newsPages = 0;
 
 	User.findOne({

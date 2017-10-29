@@ -182,13 +182,16 @@
 
 	<script>
 		$(function(){
-			var str = $(".newsContent").html();
-			if(!str) return;
-			var m =str.length;
-			var n = str.indexOf(':');
-			var j = str.substring(0,n);
-			var s = str.replace(j,'回复你 ');
-		    $(".newsContent").html(s);
+			$(".newsContent").each(function(idx,ele){
+				var str = $(ele).html();
+				if(!str) return;
+				var m =str.length;
+				var n = str.indexOf(':');
+				var j = str.substring(0,n);
+				var s = str.replace(j,'回复你 ');
+			    $(ele).html(s);
+			})
+
 		});	
 
 		//body最小高度

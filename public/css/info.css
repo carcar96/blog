@@ -146,20 +146,18 @@ header .navbar .container .navbar-header span{
 }
 
 .info .container .row > div .infoMessage .isnotAdmin ul li {
-    width: 16%;
-    margin: 0px 17%;
+    width: 50%;
 }
 
 .info .container .row > div .infoMessage .isAdmin ul li{
-	margin: 0;
-	width: 15%;
-	margin: 0 9.16666%;
+	width: 33.3333%;
 }
 
 .info .container .row > div .infoMessage .info-nav ul li > a{
 	border:none;
 	color: #333;
 	padding: 9px 15px;
+	display: inline-block;
 }
 
 .info .container .row > div .infoMessage .info-nav ul li > a:hover{
@@ -167,8 +165,9 @@ header .navbar .container .navbar-header span{
 	background-color: #ffffff;
 }
 
-.info .container .row > div .infoMessage .info-nav ul li.active {   
-	border-bottom:2px solid #e67e22;
+.info .container .row > div .infoMessage .info-nav ul li.active a{   
+	border-bottom: 2px solid #e67e22;
+    border-radius: 0;
 }
 
 .info .container .row > div .tab-content{
@@ -312,101 +311,6 @@ header .navbar .container .navbar-header span{
 	color:red;
 }
 
-@media (min-width: 992px){
-
-	.info .container .row .col-md-8 {
-	    width: 75%;
-	}
-
-	.info .container .row .col-md-offset-2 {
-	    margin-left: 12.5%;
-	}
-
-}
-
-@media (min-width: 1200px){
-
-	.container {
-	    width: 93%;
-	}
-
-}
-
-@media (min-width: 400px){
-	#myModal .modal-dialog {
-	    width: 350px;
-	    margin: 30px auto;
-	}
-
-	#avatarModal .modal-dialog {
-	    width: 700px;
-	    margin: 30px auto;
-	}
-
-	header .navbar .container .navbar-header .navbar-brand{
-		margin-left:15px;
-	}
-}
-
-
-@media (max-width:767px){
-
-	.navbar-default{
-		position: static;
-		border-top: none;
-	}
-
-	.navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
-	    max-height: 500px;
-	}
-
-	header .navbar .container .navbar-header .navbar-brand img{
-		margin-top: -18px;
-	}
-
-	.navbar-toggle{
-		margin-top: 3px;
-		margin-right: 20px;
-	}
-
-	header .navbar .container .navbar-header span{
-		display: block;
-		font-size: 20px;
-		line-height: 35px;
-	}
-
-	header .navbar .container .navbar-header .navbar-brand{
-		padding-right: 10px;
-	}
-
-	.info {
-	     margin-top: 0; 
-	}
-
-	.info .container .row > div .infoMessage .isnotAdmin ul li{
-		width: 30%;
-	    margin: 0 10%;
-	}
-
-}
-
-@media (max-width: 550px){
-	
-	header .navbar {
-	    min-height: 65px;
-	}
-}
-
-@media (max-width:400px){
-	header .navbar .container .navbar-header .navbar-brand{
-		margin-left: 0;
-	}
-
-	header .navbar .container .navbar-header span{
-		margin-top: 2px;
-	}
-}
-
 /**news**/
 
 .news .container .row >div {
@@ -445,3 +349,107 @@ header .navbar .container .navbar-header span{
 .changeAvatar{
 	// cursor: pointer;
 }
+
+//flex水平垂直居中
+.rowVertical{
+	display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (min-width: 1200px){
+	.container {
+	    width: 93%;
+	}
+}
+
+@media (min-width: 992px){
+	.info .container .row .col-md-8 {
+	    width: 75%;
+	}
+
+	.info .container .row .col-md-offset-2 {
+	    margin-left: 12.5%;
+	}
+}
+
+@media (min-width: 768px){
+	header .navbar .container .navbar-header .navbar-brand{
+		margin-left: 0;
+		padding: 0;
+	}	
+	
+	.nav > li > a{
+		padding:10px 8px;
+	}
+
+	.navbar-right{
+		margin-right:0;
+	}
+}
+
+@media (max-width:767px){
+
+	.navbar-default{
+		position: static;
+		border-top: none;
+	}
+
+	.navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+	    max-height: 500px;
+	}
+
+	header .navbar .container .navbar-header .navbar-brand img{
+		margin-top: -3px;
+	}
+
+	.navbar-toggle{
+		margin-top: 3px;
+		margin-right: 20px;
+	}
+
+	header .navbar .container .navbar-header span{
+		display: block;
+		font-size: 20px;
+		line-height: 35px;
+	}
+
+	header .navbar .container .navbar-header .navbar-brand{
+		padding-right: 10px;
+	}
+
+	.info {
+	     margin-top: 0; 
+	}
+
+		header .navbar .container{
+		margin-left:0;
+	}
+
+}
+
+@media (max-width: 450px){
+	#myModal .modal-dialog {
+	    width: 350px;
+	    margin: 30px auto;
+	}
+
+	#avatarModal .modal-dialog {
+	    width: 700px;
+	    margin: 30px auto;
+	}
+
+	.navbar-brand{
+		padding:0;
+	}
+
+	header .navbar {
+	    min-height: 65px;
+	}
+
+	header .navbar .container .navbar-header span{
+		margin-top: 2px;
+	}
+}
+

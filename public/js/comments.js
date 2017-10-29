@@ -1,5 +1,5 @@
 
-var prepage = 2;	//每页条数
+var prepage = 5;	//每页条数
 var page = 1;	//当前页数
 var pages = 0;	//总页数
 var comments = [];	//评论列表
@@ -102,8 +102,8 @@ $('.list-group').delegate('button','click',function(){
 		//评论中有回复的btn
 		var id = $(this).parent().parent().parent().prev().find(':hidden').val();
 		var replyComment = $(this).parent().parent().find('textarea').val();
-
-		if(replyComment == ''){
+		var layout = ' 回复 '+ receiverName +' : ';
+		if(replyComment == '' || replyComment == layout){
 			$(this).prev().show()
 		}else{
 			$(this).prev().hide()

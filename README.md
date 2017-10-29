@@ -4,11 +4,12 @@
 3. 另外打开cmd -->cd "文件app.js的上一层目录"( C:\Users\pc\Desktop\blog ) -->回车确认
 4. 输入 node app.js
 
-> E:
-> cd E:MongoDB\Bin
-> mongod --dbpath=C:\Users\pc\Desktop\blog\db --port=27018
-> cd C:\Users\pc\Desktop\blog
-> node app.js
+#### -->对应指令
+- E:
+- cd E:MongoDB\Bin
+- mongod --dbpath=C:\Users\pc\Desktop\blog\db --port=27018
+- cd C:\Users\pc\Desktop\blog
+- node app.jss
 
 
 ## 文档说明
